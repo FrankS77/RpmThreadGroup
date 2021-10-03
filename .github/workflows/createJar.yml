@@ -49,6 +49,6 @@ jobs:
         with:
           upload_url: ${{steps.create_release.outputs.upload_url}}
           asset_path: build/libs/RpmThreadGroup-${{env.rpmversion}}.jar
-          asset_name: RpmThreadGroup-Jar-${{env.rpmversion}}.zip
-          asset_content_type: application/zip
+          asset_name: RpmThreadGroup-${{env.rpmversion}}.jar
+          asset_content_type: application/java-archive
 
