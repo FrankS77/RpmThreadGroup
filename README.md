@@ -20,7 +20,7 @@ threads (users) should be variable. If the number of threads are not
 enough because all current threads are waiting for responses but another
 request should be send than another thread (user) should be created.
 
-![](.//media/image1.png){width="6.3in" height="2.2719116360454943in"}
+![](.//media/image1.png)
 
 Task: Given:
 
@@ -35,15 +35,13 @@ much requests should be send to a server at **any** point of time (t).
 
 1.  The amount of requests (R) is defined by the areas R1 and R2.
 
-> ![](.//media/image2.png){width="4.472222222222222in"
-> height="0.7222222222222222in"}
+> ![](.//media/image2.png)
 
 We need a formula that doesn't depend on endRPM because we make endRPM
 variable over the time.
 
 ![Ein Bild, das Tisch enthält. Automatisch generierte
-Beschreibung](.//media/image3.png){width="3.3194444444444446in"
-height="1.2916666666666667in"}
+Beschreibung](.//media/image3.png)
 
 Replace (endRPM --startRPM) by ( n \* tan α) in formula above.
 
@@ -54,14 +52,12 @@ Intermediate calculation steps are not shown.
 
 Solution formula for ascending requests per minute:
 
-![](.//media/image5.png){width="3.3194444444444446in"
-height="1.0833333333333333in"}
+![](.//media/image5.png)
 
 !!! We always want the time "n" for the next (1) request. So R = 1 !!!!!
 
 ![Ein Bild, das Text enthält. Automatisch generierte
-Beschreibung](.//media/image6.png){width="3.3333333333333335in"
-height="0.8888888888888888in"}
+Beschreibung](.//media/image6.png)
 
 Now we have "n". startRPM is variable. The endRPM is always the new
 startRPM.
@@ -71,4 +67,4 @@ startRPMnew = n \* tan$\text{\ α}$ + startRPM
 Solution formula for descending requests per minute (no calculation
 steps are shown)
 
-![](.//media/image7.png){width="3.6666666666666665in" height="0.875in"}
+![](.//media/image7.png)
