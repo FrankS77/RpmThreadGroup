@@ -1,11 +1,52 @@
-apply plugin: 'java'
-apply plugin: 'eclipse'
+plugins {
+    id 'java-library'
+    id 'org.ajoberstar.grgit' version '1.7.2'
+}
 
-sourceCompatibility = 1.8
+sourceCompatibility = javaVersion
+targetCompatibility = javaVersion
 
-jar {
+def getRepositoryVersion() {
+    def version = ''
+    try {
+        def latestCommitDate = grgit.log(maxCommits: 1).get(0).date
+        version = latestCommitDate.format('yyyy-MM-dd')
+    } catch (all) {
+        version = '1.0'
+    }
+    return version
+}
+
+version = getRepositoryVersion()
+group   = 'de.fschullerer'
+
+tasks.withType(JavaCompile) {
+    options.encoding = javaEncoding
+}
+
+task sourcesJar(type: Jar, dependsOn:classes) {
+    from sourceSets.main.java
+    archiveClassifier = 'sources'
     manifest {
-        attributes 'Implementation-Title': 'RpmThreadGroup'
+        attributes 'Implementation-Title': project.name, 'Implementation-Version': version
+    }
+}
+
+// by default, implementation cannot be referenced,
+// this allows us to use it below
+project.configurations.implementation.setCanBeResolved(true)
+jar {
+    dependsOn sourcesJar
+    doFirst {
+        manifest {
+            attributes 'Implementation-Title': project.name,
+                    'Implementation-Version': version,
+                    'Built-Gradle': gradle.gradleVersion,
+                    'Built-Host': java.net.InetAddress.getLocalHost().getHostName(),
+                    'Source-Compatibility': project.sourceCompatibility,
+                    'Target-Compatibility': project.targetCompatibility,
+                    'Build-Time': new Date().format('yyyy-MM-dd_HH-mm')
+        }
     }
 }
 
@@ -22,16 +63,10 @@ dependencies {
         exclude group: 'org.apache.jmeter', module: 'bom'
     }
 
-
-
-
 }
 
-// custom tasks for creating source jar
-task sourcesJar(type: Jar, dependsOn:classes) {
-    from sourceSets.main.java
-    manifest {
-        attributes 'Implementation-Title': 'SeleniumTest Sources'
+task getVersion() {
+    doLast {
+        println project.version
     }
 }
-
